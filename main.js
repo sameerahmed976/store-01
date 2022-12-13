@@ -6,8 +6,6 @@ if (document.readyState === "loading") {
 
 function init() {
   const deleteButton = document.querySelectorAll(".btn-danger");
-  console.log("🚀 ~ file: main.js:2 ~ deleteButton", deleteButton);
-
   for (var i = 0; i < deleteButton.length; i++) {
     var button = deleteButton[i];
     button.addEventListener("click", removeCartItem);
@@ -27,22 +25,12 @@ function init() {
       const shopItem = e.target.parentElement.parentElement;
 
       const title = shopItem.querySelector(".shop-item-title").innerText;
-      console.log(
-        "🚀 ~ file: main.js:46 ~ atc.addEventListener ~ title",
-        title
-      );
+
       const price = parseFloat(
         shopItem.querySelector(".shop-item-price").innerText.replace("$", " ")
       );
-      console.log(
-        "🚀 ~ file: main.js:48 ~ atc.addEventListener ~ price",
-        price
-      );
+
       const image = shopItem.querySelector(".shop-item-image").src;
-      console.log(
-        "🚀 ~ file: main.js:50 ~ atc.addEventListener ~ image",
-        image
-      );
 
       addCart(title, price, image);
 
@@ -50,6 +38,23 @@ function init() {
     });
   });
 }
+
+const totalOutput = (e) => {
+  // const buttonClick = e.target;
+
+  alert("Cart item will be shipped");
+
+  const cartItems = document.querySelector(".cart-items");
+
+  while (cartItems.hasChildNodes()) {
+    cartItems.removeChild(cartItems.firstChild);
+  }
+
+  updateCartTotal();
+};
+const btnPurchase = document.querySelector(".btn-purchase");
+
+btnPurchase.addEventListener("click", totalOutput);
 
 function removeCartItem(event) {
   var buttonClicked = event.target;
@@ -60,10 +65,6 @@ function removeCartItem(event) {
 function changeInput() {
   return (e) => {
     let input = parseInt(e.target.value);
-    console.log(
-      "🚀 ~ file: main.js:27 ~ qi.addEventListener ~ quantityItems",
-      input
-    );
 
     if (isNaN(input) || input <= 0) {
       input = 1;
@@ -77,7 +78,6 @@ function addCart(title, price, image) {
 
   cartItem.className = "cart-row";
   // cartItem.innerText = title;
-  console.log("🚀 ~ file: main.js:71 ~ addCart ~ cartItem", cartItem);
 
   const cartItemsName = document.querySelectorAll(".cart-item-title");
 
@@ -101,7 +101,6 @@ function addCart(title, price, image) {
 `;
 
   const cartItems = document.querySelector(".cart-items");
-  console.log("🚀 ~ file: main.js:74 ~ addCart ~ cartItems", cartItems);
 
   cartItems.append(cartItem);
   cartItems.addEventListener("click", (e) => {
@@ -112,24 +111,13 @@ function addCart(title, price, image) {
     }
     if (e.target.classList.contains("cart-quantity-input")) {
       let input = parseInt(e.target.value);
-      console.log(
-        "🚀 ~ file: main.js:27 ~ qi.addEventListener ~ quantityItems",
-        input
-      );
 
       if (isNaN(input) || input <= 0) {
         input = 1;
       }
-      // console.log("click");
       updateCartTotal();
     }
   });
-
-  // const quantityValue = cartItems.addEventListener;
-  // console.log(
-  //   "🚀 ~ file: main.js:115 ~ addCart ~ quantityValue",
-  //   quantityValue
-  // );
 }
 
 function updateCartTotal() {
@@ -142,25 +130,14 @@ function updateCartTotal() {
     const price = parseFloat(
       cartItem.querySelector(".cart-price").innerText.replace("$", "")
     );
-    console.log(
-      "🚀 ~ file: main.js:20 ~ carItemContainer.forEach ~ price",
-      price
-    );
+
     const quantity = parseFloat(
       cartItem.querySelector(".cart-quantity-input").value
     );
-    console.log(
-      "🚀 ~ file: main.js:27 ~ carItemContainer.forEach ~ quantity",
-      quantity
-    );
 
     total += price * quantity;
-    console.log(
-      "🚀 ~ file: main.js:37 ~ carItemContainer.forEach ~ total",
-      total
-    );
 
     total = Math.round(total * 100) / 100;
-    document.querySelector(".cart-total-price").innerText = `$ ${total}`;
   }
+  document.querySelector(".cart-total-price").innerText = `$ ${total}`;
 }
